@@ -1,0 +1,46 @@
+### Test básico de conexión
+GET http://localhost:8080/test/ping
+
+### Test de echo JSON
+POST http://localhost:8080/test/echo
+Content-Type: application/json
+
+{
+  "test": "data",
+  "number": 123
+}
+
+### Test de login simple
+POST http://localhost:8080/test/login-test
+Content-Type: application/json
+
+{
+  "correoElectronico": "pedro@example.com",
+  "contrasena": "123456"
+}
+
+### Test de auth endpoint simplificado
+POST http://localhost:8080/auth
+Content-Type: application/json
+
+{
+  "correoElectronico": "pedro@example.com",
+  "contrasena": "123456"
+}
+
+### Test de auth/login endpoint simplificado
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "correoElectronico": "pedro@example.com",
+  "contrasena": "123456"
+}
+
+### Test con JSON malformado
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "correoElectronico": "pedro@example.com"
+} 

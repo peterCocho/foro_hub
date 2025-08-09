@@ -19,13 +19,13 @@ public class ValidationExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> manejarErroresDeValidacion(MethodArgumentNotValidException ex) {
-        Map<String, String> errores = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
 
-        // 🔍 Recorremos todos los errores de campo encontrados
+        // 🔍 Recorremos todos los errors de campo encontrados
         ex.getBindingResult().getFieldErrors().forEach(error ->
-                errores.put(error.getField(), error.getDefaultMessage())
+                errors.put(error.getField(), error.getDefaultMessage())
         );
 
-        return new ResponseEntity<>(errores, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

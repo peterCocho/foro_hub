@@ -13,21 +13,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>backend</name>
 	<description>Foro de inquietudes</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<mysql.version>8.0.33</mysql.version>
+		<jjwt.version>0.11.5</jjwt.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,12 +53,31 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
+			<version>${mysql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${jjwt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>${jjwt.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -87,18 +95,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -110,7 +106,43 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<configuration>
+					<!-- Le dice a Flyway que use las propiedades definidas en la sección <properties> de este POM -->
+					<url>${spring.datasource.url}</url>
+					<user>${spring.datasource.username}</user>
+					<password>${spring.datasource.password}</password>
+				</configuration>
+				<!-- Se añade la dependencia del driver de MySQL directamente al plugin -->
+				<!-- para que pueda encontrarlo y conectarse a la base de datos. -->
+				<dependencies>
+					<dependency>
+						<groupId>com.mysql</groupId>
+						<artifactId>mysql-connector-j</artifactId>
+						<!-- Se añade la versión que faltaba, usando la misma que en las dependencias principales -->
+						<version>${mysql.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- Propiedades de la BD para el perfil de desarrollo -->
+				<!-- Maven las usará para tareas como flyway:clean -->
+				<spring.datasource.url>jdbc:mysql://localhost:3306/foro_hub</spring.datasource.url>
+				<spring.datasource.username>root</spring.datasource.username>
+				<spring.datasource.password></spring.datasource.password>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>
