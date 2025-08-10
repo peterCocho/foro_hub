@@ -67,16 +67,36 @@ Un sistema de foros moderno y seguro desarrollado con **Spring Boot** que permit
 ## 🗃️ Diagrama de la Base de Datos
 
 ```
-+---------+      +-----------+      +----------+
-|  users  |<-----|  topics   |<-----| responses|
-+---------+      +-----------+      +----------+
-| id      |      | id        |      | id       |
-| email   |      | title     |      | message  |
-| name    |      | message   |      | topic_id |
-| password|      | status    |      | user_id  |
-+---------+      | user_id   |      +----------+
-                 | course_id |
-                 +-----------+
+            +--------------------+
+            |  user_profiles     |
+            +--------------------+
+            | user_id (PK, FK)   |
+            | profile            |
+            +--------------------+
+                    ^
+                    |
++---------+         |
+|  users  |         |
++---------+         |
+| id      |---------|
+| name    |         |
+| email   |         |   
+| password|         |
++---------+         |-----------------------------------------
+     |                              |                         |
++----------------+      +----------------------+      +----------------+
+|   courses      |<-----|  topics              |<-----|  responses     |
++----------------+      +----------------------+      +----------------+
+| id             |      | id                   |      | id             |
+| name           |      | title                |      | message        |
+| category       |      | message              |      | topic_id       |
++----------------+      | creation_date        |      | creation_date  |
+                        | status               |      | author_id      |
+                        | author_id (FK)       |      | is_solution    |
+                        | course_id (FK)       |      +----------------+
+                        | solution_response_id |
+                        +----------------------+
+
 ```
 
 ---
@@ -91,8 +111,8 @@ Un sistema de foros moderno y seguro desarrollado con **Spring Boot** que permit
 | GET    | `/topics/{id}`          | Detalle de un tópico                        | ✅            |
 | POST   | `/topics`               | Crear un nuevo tópico                       | ✅            |
 | PUT    | `/topics/{id}`          | Actualizar un tópico                        | ✅            |
-| DELETE | `/topics/{id}`          | Eliminar un tópico                          | ✅            |
-| PUT    | `/topics/{id}/spam`     | Marcar tópico como SPAM (solo ADMIN)        | ✅ (ADMIN)     |
+| DELETE | `/topics/{id}`          | Eliminar un tópico                          | ✅ (ADMIN)    |
+| PUT    | `/topics/{id}/spam`     | Marcar tópico como SPAM (solo ADMIN)        | ✅ (ADMIN)    |
 | POST   | `/responses`            | Crear respuesta a un tópico                 | ✅            |
 | PUT    | `/responses/{id}`       | Editar respuesta                            | ✅            |
 
@@ -123,7 +143,34 @@ Un sistema de foros moderno y seguro desarrollado con **Spring Boot** que permit
 
 ## 📸 Capturas de Pantalla
 
-> _Espacio reservado para imágenes de requests y respuestas en Insomnia/Postman_
+<img width="781" height="297" alt="registrar_usuarios" src="https://github.com/user-attachments/assets/7b53edce-b1dd-440a-9d02-3ea7ffb77836" />
+
+<img width="884" height="322" alt="iniciar_sesion" src="https://github.com/user-attachments/assets/ba12aa31-57bb-4a8b-8d1b-294634b5b6e1" />
+
+<img width="866" height="360" alt="2025-08-10_17h10_31" src="https://github.com/user-attachments/assets/45164ebd-b530-46db-991a-4e3e5611d36b" />
+
+<img width="896" height="336" alt="listar_topicos" src="https://github.com/user-attachments/assets/1f913a46-6e4e-4cbe-9324-8e1a72caf795" />
+
+<img width="862" height="381" alt="topicos_paginacion" src="https://github.com/user-attachments/assets/d21e9ca7-273e-4839-ad7a-549555b8dde9" />
+
+<img width="755" height="357" alt="solicitar_1_topico" src="https://github.com/user-attachments/assets/9f2eefd3-ffab-459f-8919-7ff68eb683f7" />
+
+<img width="759" height="366" alt="actualizar_topico" src="https://github.com/user-attachments/assets/398440cd-0f81-4aab-b4f5-aba430a46375" />
+
+<img width="760" height="312" alt="eliminar_topico" src="https://github.com/user-attachments/assets/0576a9e1-00c1-4f46-ad98-9ac4f9b05fa2" />
+
+<img width="757" height="426" alt="solucionar_topico" src="https://github.com/user-attachments/assets/fc2e8b09-4cfe-4bef-9451-669457078bb1" />
+
+<img width="750" height="290" alt="marcar_spam" src="https://github.com/user-attachments/assets/f5f99874-dab1-470a-a3d8-814d2978bfc6" />
+
+<img width="779" height="425" alt="registrar_respuestas" src="https://github.com/user-attachments/assets/0f2d3f7f-ab74-4e0e-9eb5-0d9a542351ba" />
+
+
+
+
+
+
+
 
 ---
 
@@ -172,4 +219,5 @@ backend/
 ⭐️ _¡No olvides darle estrella al repositorio si te resultó útil!_
 
 ---
+
 
