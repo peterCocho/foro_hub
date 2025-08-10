@@ -21,7 +21,7 @@ Un sistema de foros moderno y seguro desarrollado con **Spring Boot** que permit
 - Lombok
 - JUnit 5
 - MockMvc
-- Postman / Insomnia
+- Insomnia
 
 ---
 
@@ -172,3 +172,4 @@ backend/
 ⭐️ _¡No olvides darle estrella al repositorio si te resultó útil!_
 
 ---
+
